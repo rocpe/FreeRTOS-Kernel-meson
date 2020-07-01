@@ -25,4 +25,4 @@ if port == 'GCC/Posix'
     deps += dependency('threads')
 endif
 
-FreeRTOS = declare_dependency(dependencies: deps, include_directories: FreeRTOS_inc, sources: FreeRTOS_src)
+freertos_dep = declare_dependency(dependencies: deps, include_directories: FreeRTOS_inc, sources: FreeRTOS_src)
