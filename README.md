@@ -1,3 +1,6 @@
+## About this fork
+This fork of the FreeRTOS kernel is aimed at supporting the meson build system. It also includes by default the GCC Posix emulator. To customize the basic build options, edit the `meson_options.txt` file.  For more advanced settings, edit the `meson.build` file directly.
+
 ## Getting started
 This repository contains FreeRTOS kernel source/header files and kernel ports only. This repository is referenced as a submodule in [FreeRTOS/FreeRTOS](https://github.com/FreeRTOS/FreeRTOS) repository, which contains pre-configured demo application projects under ```FreeRTOS/Demo``` directory. 
 
