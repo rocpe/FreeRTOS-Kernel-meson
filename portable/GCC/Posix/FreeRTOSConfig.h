@@ -86,6 +86,7 @@
 #define configENABLE_BACKWARD_COMPATIBILITY 1
 #define configSUPPORT_STATIC_ALLOCATION 1
 #define configSUPPORT_DYNAMIC_ALLOCATION 0
+#define configUSE_QUEUE_SETS             1
 #define configTIMER_TASK_STACK_DEPTH configMINIMAL_STACK_SIZE
 
 #define configMAX_PRIORITIES		( 10 )
