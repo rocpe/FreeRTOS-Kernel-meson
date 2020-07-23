@@ -2856,6 +2856,22 @@ BaseType_t xQueueIsQueueFullFromISR( const QueueHandle_t xQueue )
     }
 
 #endif /* configUSE_QUEUE_SETS */
+
+#if( ( configUSEQUEUESETS == 1 ) && ( configSUPPORTSTATICALLOCATION == 1 ) )
+
+
+QueueSetHandle_t xQueueCreateSetStatic( const UBaseType_t uxEventQueueLength, uint8_t *pucQueueSetStorage, StaticQueue_t *pxStaticQueueSet )
+{
+QueueSetHandle_t pxQueue;
+
+    pxQueue = xQueueGenericCreateStatic( uxEventQueueLength, ( UBaseType_t ) sizeof( Queue_t * ), pucQueueSetStorage, pxStaticQueueSet, queueQUEUE_TYPE_SET );
+
+    return pxQueue;
+}
+
+
+
+#endif /* configUSEQUEUESETS */
 /*-----------------------------------------------------------*/
 
 #if ( configUSE_QUEUE_SETS == 1 )

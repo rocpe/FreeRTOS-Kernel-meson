@@ -1590,6 +1590,11 @@
  */
     QueueSetHandle_t xQueueCreateSet( const UBaseType_t uxEventQueueLength ) PRIVILEGED_FUNCTION;
 
+    
+    #if( ( configUSEQUEUESETS == 1 ) && ( configSUPPORTSTATICALLOCATION == 1 ) )
+QueueSetHandle_t xQueueCreateSetStatic( const UBaseType_t uxEventQueueLength, uint8_t *pucQueueSetStorage, StaticQueue_t *pxStaticQueueSet ) PRIVILEGED_FUNCTION;
+#endif /* configUSEQUEUESETS */
+
 /*
  * Adds a queue or semaphore to a queue set that was previously created by a
  * call to xQueueCreateSet().

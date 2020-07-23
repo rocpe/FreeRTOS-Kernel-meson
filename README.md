@@ -1,6 +1,9 @@
 ## About this fork
 This fork of the FreeRTOS kernel is aimed at supporting the meson build system. It also includes by default the GCC Posix emulator. To customize the basic build options, edit the `meson_options.txt` file.  For more advanced settings, edit the `meson.build` file directly.
 
+As an added bonus, support for static queue set allocation has been added (see https://www.freertos.org/FreeRTOS_Support_Forum_Archive/June_2018/freertos_static_queue_set_95984609j.html):
+QueueSetHandle_t xQueueCreateSetStatic( const UBaseType_t uxEventQueueLength, uint8_t *pucQueueSetStorage, StaticQueue_t *pxStaticQueueSet )
+
 ## Getting started
 This repository contains FreeRTOS kernel source/header files and kernel ports only. This repository is referenced as a submodule in [FreeRTOS/FreeRTOS](https://github.com/FreeRTOS/FreeRTOS) repository, which contains pre-configured demo application projects under ```FreeRTOS/Demo``` directory. 
 
