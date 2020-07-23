@@ -1591,7 +1591,7 @@
     QueueSetHandle_t xQueueCreateSet( const UBaseType_t uxEventQueueLength ) PRIVILEGED_FUNCTION;
 
     
-    #if( ( configUSEQUEUESETS == 1 ) && ( configSUPPORTSTATICALLOCATION == 1 ) )
+#if( ( configUSEQUEUESETS == 1 ) && ( configSUPPORTSTATICALLOCATION == 1 ) )
 QueueSetHandle_t xQueueCreateSetStatic( const UBaseType_t uxEventQueueLength, uint8_t *pucQueueSetStorage, StaticQueue_t *pxStaticQueueSet ) PRIVILEGED_FUNCTION;
 #endif /* configUSEQUEUESETS */
 

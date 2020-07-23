@@ -99,6 +99,8 @@
 
 /*-----------------------------------------------------------*/
 
+#if (configSUPPORT_DYNAMIC_ALLOCATION)
+
     BaseType_t xCoRoutineCreate( crCOROUTINE_CODE pxCoRoutineCode,
                                  UBaseType_t uxPriority,
                                  UBaseType_t uxIndex )
@@ -157,6 +159,8 @@
 
         return xReturn;
     }
+    
+#endif
 /*-----------------------------------------------------------*/
 
     void vCoRoutineAddToDelayedList( TickType_t xTicksToDelay,

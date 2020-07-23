@@ -90,7 +90,7 @@ typedef struct THREAD_SUSPENSIONS
 } xThreadState;
 /*-----------------------------------------------------------*/
 
-static xThreadState *pxThreads;
+static xThreadState pxThreads[MAX_NUMBER_OF_TASKS];
 static pthread_once_t hSigSetupThread = PTHREAD_ONCE_INIT;
 static pthread_attr_t xThreadAttributes;
 static pthread_mutex_t xSuspendResumeThreadMutex = PTHREAD_MUTEX_INITIALIZER;
@@ -142,7 +142,7 @@ void vPortStartFirstTask( void );
 portSTACK_TYPE *pxPortInitialiseStack( portSTACK_TYPE *pxTopOfStack, pdTASK_CODE pxCode, void *pvParameters )
 {
 /* Should actually keep this struct on the stack. */
-xParams *pxThisThreadParams = pvPortMalloc( sizeof( xParams ) );
+    xParams pxThisThreadParams;
 
 	(void)pthread_once( &hSigSetupThread, prvSetupSignalsAndSchedulerPolicy );
 
@@ -156,8 +156,8 @@ xParams *pxThisThreadParams = pvPortMalloc( sizeof( xParams ) );
 	pthread_attr_setdetachstate( &xThreadAttributes, PTHREAD_CREATE_DETACHED );
 
 	/* Add the task parameters. */
-	pxThisThreadParams->pxCode = pxCode;
-	pxThisThreadParams->pvParams = pvParameters;
+	pxThisThreadParams.pxCode = pxCode;
+	pxThisThreadParams.pvParams = pvParameters;
 
 	vPortEnterCritical();
 
@@ -167,7 +167,7 @@ xParams *pxThisThreadParams = pvPortMalloc( sizeof( xParams ) );
 	if ( 0 == pthread_mutex_lock( &xSingleThreadMutex ) )
 	{
 		xSentinel = 0;
-		if ( 0 != pthread_create( &( pxThreads[ lIndexOfLastAddedTask ].hThread ), &xThreadAttributes, prvWaitForStart, (void *)pxThisThreadParams ) )
+		if ( 0 != pthread_create( &( pxThreads[ lIndexOfLastAddedTask ].hThread ), &xThreadAttributes, prvWaitForStart, (void *)&pxThisThreadParams ) )
 		{
 			/* Thread create failed, signal the failure */
 			pxTopOfStack = 0;
@@ -242,7 +242,6 @@ portLONG lIndex;
 	/* Cleanup the mutexes */
 	xResult = pthread_mutex_destroy( &xSuspendResumeThreadMutex );
 	xResult = pthread_mutex_destroy( &xSingleThreadMutex );
-	vPortFree( (void *)pxThreads );
 
 	/* Should not get here! */
 	return 0;
@@ -500,7 +499,6 @@ void *prvWaitForStart( void * pvParams )
 xParams * pxParams = ( xParams * )pvParams;
 pdTASK_CODE pvCode = pxParams->pxCode;
 void * pParams = pxParams->pvParams;
-	vPortFree( pvParams );
 
 	pthread_cleanup_push( prvDeleteThread, (void *)pthread_self() );
 
@@ -606,7 +604,6 @@ int iSchedulerPriority;
 struct sigaction sigsuspendself, sigresume, sigtick;
 portLONG lIndex;
 
-	pxThreads = ( xThreadState *)pvPortMalloc( sizeof( xThreadState ) * MAX_NUMBER_OF_TASKS );
 	for ( lIndex = 0; lIndex < MAX_NUMBER_OF_TASKS; lIndex++ )
 	{
 		pxThreads[ lIndex ].hThread = ( pthread_t )NULL;

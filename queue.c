@@ -2857,7 +2857,7 @@ BaseType_t xQueueIsQueueFullFromISR( const QueueHandle_t xQueue )
 
 #endif /* configUSE_QUEUE_SETS */
 
-#if( ( configUSEQUEUESETS == 1 ) && ( configSUPPORTSTATICALLOCATION == 1 ) )
+#if( ( configUSE_QUEUE_SETS == 1 ) && ( configSUPPORT_STATIC_ALLOCATION == 1 ) )
 
 
 QueueSetHandle_t xQueueCreateSetStatic( const UBaseType_t uxEventQueueLength, uint8_t *pucQueueSetStorage, StaticQueue_t *pxStaticQueueSet )
