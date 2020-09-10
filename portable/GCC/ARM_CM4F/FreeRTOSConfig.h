@@ -91,7 +91,7 @@
 
 #define configMAX_PRIORITIES		( 10 )
 #define configKERNEL_INTERRUPT_PRIORITY configMAX_PRIORITIES
-#define configCPU_CLOCK_HZ 8000000
+#define configCPU_CLOCK_HZ 168000000
 #define configMAX_CO_ROUTINE_PRIORITIES ( 2 )
 
 #define configSTACK_DEPTH_TYPE unsigned long
@@ -114,8 +114,8 @@ extern void vMainQueueSendPassed( void );
 
 #define configGENERATE_RUN_TIME_STATS		0
 
-#define vPortSVCHandler sv_call_handler
-#define xPortPendSVHandler pend_sv_handler
-#define xPortSysTickHandler sys_tick_handler
+#define  vPortSVCHandler sv_call_handler
+#define  xPortPendSVHandler pend_sv_handler
+#define  xPortSysTickHandler sys_tick_handler
 
 #endif /* FREERTOS_CONFIG_H */

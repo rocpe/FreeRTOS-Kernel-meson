@@ -106,6 +106,7 @@ to exclude the API function. */
 #define INCLUDE_vTaskDelay					1
 #define INCLUDE_uxTaskGetStackHighWaterMark 0 /* Do not use this option on the PC port. */
 #define INCLUDE_xTaskGetSchedulerState		1
+#define INCLUDE_xTaskAbortDelay             1
 
 extern void vMainQueueSendPassed( void );
 #define traceQUEUE_SEND( pxQueue ) vMainQueueSendPassed()
