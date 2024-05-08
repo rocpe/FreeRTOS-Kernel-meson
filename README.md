@@ -5,12 +5,12 @@ This fork of the FreeRTOS kernel is aimed at supporting the meson build system w
 Use this repo as git submodule in your project. I assume that you use libopencm3. If not you have to tweak `glueme.c` and `meson.build` files. 
 
 ### Setup
-You have a your project with `meson.build`. It has to have:
+You have your project with `meson.build`. It has to have:
 ```meson
 ...
 option('alloc',
     type : 'string',
-    value : 'heap_4', #or heap_3 or whatever
+    value : 'heap_4', # or heap_3 or whatever
     description : 'Allocater file name')
 option('port',
     type : 'string',
