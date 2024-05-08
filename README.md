@@ -1,29 +1,41 @@
 ## About this fork
-This fork of the FreeRTOS kernel is aimed at supporting the meson build system. It also includes by default the GCC Posix emulator. To customize the basic build options, edit the `meson_options.txt` file.  For more advanced settings, edit the `meson.build` file directly.
-
-As an added bonus, support for static queue set allocation has been added (see https://www.freertos.org/FreeRTOS_Support_Forum_Archive/June_2018/freertos_static_queue_set_95984609j.html):
-QueueSetHandle_t xQueueCreateSetStatic( const UBaseType_t uxEventQueueLength, uint8_t *pucQueueSetStorage, StaticQueue_t *pxStaticQueueSet )
+This fork of the FreeRTOS kernel is aimed at supporting the meson build system with libopencm3. To customize edit the `meson.build` and `glueme.c` files. I assume you know what FreeRTOS is and how it works.
 
 ## Getting started
-This repository contains FreeRTOS kernel source/header files and kernel ports only. This repository is referenced as a submodule in [FreeRTOS/FreeRTOS](https://github.com/FreeRTOS/FreeRTOS) repository, which contains pre-configured demo application projects under ```FreeRTOS/Demo``` directory. 
+Use this repo as git submodule in your project. I assume that you use libopencm3. If not you have to tweak `glueme.c` and `meson.build` files. 
 
-The easiest way to use FreeRTOS is to start with one of the pre-configured demo application projects.  That way you will have the correct FreeRTOS source files included, and the correct include paths configured.  Once a demo application is building and executing you can remove the demo application files, and start to add in your own application source files.  See the [FreeRTOS Kernel Quick Start Guide](https://www.freertos.org/FreeRTOS-quick-start-guide.html) for detailed instructions and other useful links.
-
-Additionally, for FreeRTOS kernel feature information refer to the [Developer Documentation](https://www.freertos.org/features.html), and [API Reference](https://www.freertos.org/a00106.html).
-
-### Getting help
-If you have any questions or need assistance troubleshooting your FreeRTOS project, we have an active community that can help on the [FreeRTOS Community Support Forum](https://forums.freertos.org).
-
-## Cloning this repository
-
-To clone using HTTPS:
+### Setup
+You have a your project with `meson.build`. It has to have:
+```meson
+...
+option('alloc',
+    type : 'string',
+    value : 'heap_4', #or heap_3 or whatever
+    description : 'Allocater file name')
+option('port',
+    type : 'string',
+    value : 'GCC/ARM_CM3', # it needs to match you MC 
+    description : 'Port floder')
+...
+# libopencm3 setup. You could have it installed globally or just for your project.
+libopencm3_dep = ...
+...
+subdir('<path-to-this-repo>') # it will create freertos_dep
+...
+exe = executable(
+    ...
+   dependencies: [..., freertos_dep] 
+)
+...
 ```
-git clone https://github.com/FreeRTOS/FreeRTOS-Kernel.git
-```
-Using SSH:
-```
-git clone git@github.com:FreeRTOS/FreeRTOS-Kernel.git
-```
+You also need `FreeRTOSConfig.h` file in your project. You can find those in examples across the internet.
+
+If you are unsure still how to do all of this go to XXX example.
+
+## Problems
+1. It won't work with stm32h7 because libopencm3 right now doesn't support it fully and FreeRTOS has a bit different directory structure for this type of MCs. TODO: Implement for those MCs.
+2. How to write `glueme.c` file for other libraries?
+3. Tested only on stm32f103rb so far. Feel free to test it on other MCs and send feedback.
 
 ## Repository structure
 - The root of this repository contains the three files that are common to 

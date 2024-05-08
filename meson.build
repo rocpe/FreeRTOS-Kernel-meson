@@ -1,12 +1,10 @@
-
-project('FreeRTOS', ['c'], default_options : ['c_std=c11', 'warning_level=3'])
-
-
-allocator = get_option('allocator')
+# alloc and port variables are supposed to be set in higher meson.build file or other
+alloc = get_option('alloc')
 port = get_option('port')
 
 FreeRTOS_inc = include_directories('include/', 'portable/'+port)
 FreeRTOS_src = files(
+    'glueme.c'
     'croutine.c',
     'event_groups.c',
     'list.c',
@@ -17,9 +15,11 @@ FreeRTOS_src = files(
     'portable/'+port+'/port.c'
     )
     
-deps = []
+# use whatever lib which will work. Remeber to change glueme.c !
+deps = [libopencm3_dep]
+
 if allocator != ''
-    FreeRTOS_src += files('portable/MemMang/'+allocator+'.c')
+    FreeRTOS_src += files('portable/MemMang/'+alloc+'.c')
 endif
 if port == 'GCC/Posix'
     deps += dependency('threads')

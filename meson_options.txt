@@ -1,2 +1,0 @@
-option('port', type : 'string', value : 'GCC/Posix', description : 'Port folder')
-option('allocator', type : 'string', value : '', description : 'Allocator file name, can be empty')
