@@ -4,7 +4,7 @@ port = get_option('port')
 
 FreeRTOS_inc = include_directories('include/', 'portable/'+port)
 FreeRTOS_src = files(
-    'glueme.c'
+    'glueme.c',
     'croutine.c',
     'event_groups.c',
     'list.c',
@@ -18,11 +18,6 @@ FreeRTOS_src = files(
 # use whatever lib which will work. Remeber to change glueme.c !
 deps = [libopencm3_dep]
 
-if allocator != ''
-    FreeRTOS_src += files('portable/MemMang/'+alloc+'.c')
-endif
-if port == 'GCC/Posix'
-    deps += dependency('threads')
-endif
+FreeRTOS_src += files('portable/MemMang/'+alloc+'.c')
 
 freertos_dep = declare_dependency(dependencies: deps, include_directories: FreeRTOS_inc, sources: FreeRTOS_src)
